@@ -28,11 +28,11 @@ public class TaskController {
         }
         catch (UserNotFoundException e)
         {
-            return new ResponseEntity(e.getMessage(),HttpStatus.OK);
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
         catch (Exception e)
         {
-            return new ResponseEntity(e.getMessage(),HttpStatus.OK);
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
