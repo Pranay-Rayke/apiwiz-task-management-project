@@ -1,15 +1,22 @@
 package com.example.taskmanagementapi.Service.Implementation;
 
 import com.example.taskmanagementapi.CustomException.TaskNotFoundException;
+import com.example.taskmanagementapi.CustomException.UserNotAdminException;
 import com.example.taskmanagementapi.CustomException.UserNotFoundException;
+import com.example.taskmanagementapi.DTO.RequestDto.TaskRequestDto;
+import com.example.taskmanagementapi.DTO.RequestDto.UserRequestDto;
+import com.example.taskmanagementapi.DTO.ResponseDto.TaskResponseDto;
 import com.example.taskmanagementapi.Entity.Task;
 import com.example.taskmanagementapi.Entity.User;
 import com.example.taskmanagementapi.Repository.TaskRepository;
 import com.example.taskmanagementapi.Repository.UserRepository;
 import com.example.taskmanagementapi.Service.TaskServiceInterface;
+import com.example.taskmanagementapi.Transformer.TaskTransformer;
+import com.example.taskmanagementapi.Transformer.UserTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,16 +31,21 @@ public class TaskService implements TaskServiceInterface {
     @Autowired
     private UserService userService;
 
-    public Task addTask(Task task, String username) throws UserNotFoundException {
-        User user = userService.getUserByUsername(username);
+    public Task addTask(TaskRequestDto taskRequestDto, String username) throws UserNotFoundException, UserNotAdminException {
+        User user = userRepository.findByUsername(username);
         if(user == null) {
             throw new UserNotFoundException("User Not Found !!!");
         }
+        if(user.isAdmin() == false)
+        {
+            throw new UserNotAdminException("You are not a Admin");
+        }
+        Task task = TaskTransformer.TaskRequestDtoToTask(taskRequestDto);
         task.setUser(user);
         return taskRepository.save(task);
     }
 
-    public List<Task> getTasksForUser(Long userId) throws TaskNotFoundException, UserNotFoundException {
+    public List<TaskResponseDto> getTasksForUser(Long userId) throws TaskNotFoundException, UserNotFoundException {
 
             User user = userRepository.findById(userId).get();
             if(user==null)
@@ -45,11 +57,17 @@ public class TaskService implements TaskServiceInterface {
             if(list == null)
             {
                 throw new TaskNotFoundException("Task Not Found !!!");
-        }
-         return list;
+            }
+             List<TaskResponseDto> result = new ArrayList<>();
+
+            for(Task task : list)
+            {
+            result.add(TaskTransformer.TaskToTaskResponseDto(task));
+            }
+         return result;
     }
 
-    public Task updateTask(Long taskId, Task updatedTask) throws TaskNotFoundException {
+    public TaskResponseDto updateTask(Long taskId, TaskRequestDto updatedTask) throws TaskNotFoundException {
         // Find the task by taskId
 
         Task task = taskRepository.findById(taskId).get();
@@ -60,9 +78,9 @@ public class TaskService implements TaskServiceInterface {
             task.setDescription(updatedTask.getDescription());
             task.setDueDate(updatedTask.getDueDate());
             task.setStatus(updatedTask.getStatus());
-            task.setUser(updatedTask.getUser());
-            return taskRepository.save(task);
-
+            Task task1 = taskRepository.save(task);
+            TaskResponseDto taskResponseDto = TaskTransformer.TaskToTaskResponseDto(task1);
+            return taskResponseDto;
         }
          else {
             throw new TaskNotFoundException("Task Not Found !!!");

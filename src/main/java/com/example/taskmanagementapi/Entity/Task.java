@@ -28,6 +28,6 @@ public class Task{
 
     @ManyToOne
     @JoinColumn
-    private User user;
+    User user;
 
 }

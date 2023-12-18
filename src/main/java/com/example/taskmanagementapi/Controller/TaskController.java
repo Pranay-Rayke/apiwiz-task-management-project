@@ -2,6 +2,9 @@ package com.example.taskmanagementapi.Controller;
 
 import com.example.taskmanagementapi.CustomException.TaskNotFoundException;
 import com.example.taskmanagementapi.CustomException.UserNotFoundException;
+import com.example.taskmanagementapi.DTO.RequestDto.TaskRequestDto;
+import com.example.taskmanagementapi.DTO.RequestDto.UserRequestDto;
+import com.example.taskmanagementapi.DTO.ResponseDto.TaskResponseDto;
 import com.example.taskmanagementapi.Entity.Task;
 import com.example.taskmanagementapi.Entity.User;
 import com.example.taskmanagementapi.Service.Implementation.TaskService;
@@ -20,10 +23,9 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping("/addTask")
-    public ResponseEntity addTask(@RequestBody Task task, User user) throws UserNotFoundException {
+    public ResponseEntity addTask(@RequestBody TaskRequestDto taskRequestDto, @RequestParam String username) throws UserNotFoundException {
         try{
-            String username = user.getUsername();
-            taskService.addTask(task, username);
+            taskService.addTask(taskRequestDto, username);
             return new ResponseEntity("Task Added Successfully", HttpStatus.CREATED);
         }
         catch (UserNotFoundException e)
@@ -39,7 +41,7 @@ public class TaskController {
     @GetMapping("/getTaskForUser/{userId}")
     public ResponseEntity getTasksForUser(@PathVariable Long userId) throws UserNotFoundException, TaskNotFoundException {
         try {
-            List<Task> tasks = taskService.getTasksForUser(userId);
+            List<TaskResponseDto> tasks = taskService.getTasksForUser(userId);
             return new ResponseEntity(tasks, HttpStatus.OK);
         }
         catch (UserNotFoundException e) {
@@ -56,10 +58,10 @@ public class TaskController {
     }
 
     @PutMapping("/updateTask/{taskId}")
-    public ResponseEntity updateTask(@PathVariable Long taskId, @RequestBody Task updatedTask) throws TaskNotFoundException {
+    public ResponseEntity updateTask(@PathVariable Long taskId, @RequestBody TaskRequestDto updatedTask) throws TaskNotFoundException {
         try {
-            Task task = taskService.updateTask(taskId, updatedTask);
-            return new ResponseEntity(task, HttpStatus.OK);
+            TaskResponseDto taskResponseDto = taskService.updateTask(taskId, updatedTask);
+            return new ResponseEntity(taskResponseDto, HttpStatus.OK);
         }
         catch (TaskNotFoundException e)
         {

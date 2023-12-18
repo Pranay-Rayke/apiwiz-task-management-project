@@ -36,9 +36,23 @@ The Task Management API presents a robust solution for handling tasks with a foc
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Project description :
 
-Pre Requisite - Intellij IDEA, MySQL
+1) Create Different Packages for Different Layers
+2) Used different Spring Boot annotations as per the need.
+3) Maintained Pom.xml file. Used different dependencies as per need. For ex - Swagger for documenting the API.
+4) Followed the Spring MVC architecture.
+5) Proper Designed.
+6) Use Exception Handling Concept.
+7) Modularized the code.
+8) Unit Testing.
+9) Used Postman.
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Pre Requisite - Intellij IDEA, MySQL (Database)
+
+Tech Stack - Java, Spring Boot
 
 How to run the project ?
 
@@ -54,5 +68,3 @@ How to run the project ?
 
 6) Now you can directly access the API.
 
-
-//Project Completed...But i am currently working on DTO & Transformer.

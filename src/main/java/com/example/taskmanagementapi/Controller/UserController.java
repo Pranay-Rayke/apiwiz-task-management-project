@@ -2,6 +2,8 @@ package com.example.taskmanagementapi.Controller;
 
 import com.example.taskmanagementapi.CustomException.UserNameAlreadyExistsException;
 import com.example.taskmanagementapi.CustomException.UserNotFoundException;
+import com.example.taskmanagementapi.DTO.RequestDto.UserRequestDto;
+import com.example.taskmanagementapi.DTO.ResponseDto.UserResponseDto;
 import com.example.taskmanagementapi.Entity.User;
 import com.example.taskmanagementapi.Service.Implementation.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity saveUser(@RequestBody User user) throws UserNameAlreadyExistsException {
+    public ResponseEntity saveUser(@RequestBody UserRequestDto userRequestDto) throws UserNameAlreadyExistsException {
         try {
-            userService.saveUser(user);
+            userService.saveUser(userRequestDto);
             return new ResponseEntity("New User Created", HttpStatus.CREATED);
         }
         catch (UserNameAlreadyExistsException e)
@@ -35,8 +37,8 @@ public class UserController {
     @GetMapping("/getUserById/{userId}")
     public ResponseEntity getUserById(@PathVariable Long userId) throws UserNotFoundException {
         try {
-            User user = userService.getUserById(userId);
-            return new ResponseEntity(user, HttpStatus.OK) ;
+            UserResponseDto userResponseDto = userService.getUserById(userId);
+            return new ResponseEntity(userResponseDto, HttpStatus.OK) ;
         }
         catch (UserNotFoundException e)
         {
@@ -51,8 +53,8 @@ public class UserController {
     @GetMapping("/getUserByUsername")
     public ResponseEntity getUserByUsername(@RequestParam String username) throws UserNotFoundException {
         try {
-            User user = userService.getUserByUsername(username);
-            return new ResponseEntity(user, HttpStatus.OK);
+            UserResponseDto userResponseDto = userService.getUserByUsername(username);
+            return new ResponseEntity(userResponseDto, HttpStatus.OK);
         }
         catch (UserNotFoundException e)
         {

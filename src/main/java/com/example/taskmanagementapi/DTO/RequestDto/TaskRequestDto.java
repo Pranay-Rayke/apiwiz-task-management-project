@@ -1,5 +1,6 @@
 package com.example.taskmanagementapi.DTO.RequestDto;
 
+import com.example.taskmanagementapi.Entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -19,4 +20,6 @@ public class TaskRequestDto {
     LocalDate dueDate;
 
     String status;
+
+    UserRequestDto userRequestDto;
 }

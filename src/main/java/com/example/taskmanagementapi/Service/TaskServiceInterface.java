@@ -1,17 +1,20 @@
 package com.example.taskmanagementapi.Service;
 
 import com.example.taskmanagementapi.CustomException.TaskNotFoundException;
+import com.example.taskmanagementapi.CustomException.UserNotAdminException;
 import com.example.taskmanagementapi.CustomException.UserNotFoundException;
+import com.example.taskmanagementapi.DTO.RequestDto.TaskRequestDto;
+import com.example.taskmanagementapi.DTO.ResponseDto.TaskResponseDto;
 import com.example.taskmanagementapi.Entity.Task;
 
 import java.util.List;
 
 public interface TaskServiceInterface {
-//    Task addTask(Task task, String username) throws UserNotFoundException;
+    Task addTask(TaskRequestDto taskRequestDto, String username) throws UserNotFoundException, UserNotAdminException;
 
-//    List<Task> getTasksForUser(Long userId) throws TaskNotFoundException, UserNotFoundException;
-    Task updateTask(Long taskId, Task updatedTask) throws TaskNotFoundException;
+    List<TaskResponseDto> getTasksForUser(Long userId) throws TaskNotFoundException, UserNotFoundException;
+    TaskResponseDto updateTask(Long taskId, TaskRequestDto updatedTask) throws TaskNotFoundException;
 
-//    void deleteTask(Long taskId) throws TaskNotFoundException;
+    void deleteTask(Long taskId) throws TaskNotFoundException;
 
 }
