@@ -24,11 +24,11 @@ public class UserController {
         }
         catch (UserNameAlreadyExistsException e)
         {
-            return new ResponseEntity(e.getMessage(), HttpStatus.CREATED);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         catch (Exception e)
         {
-            return new ResponseEntity(e.getMessage(),HttpStatus.OK);
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -40,11 +40,11 @@ public class UserController {
         }
         catch (UserNotFoundException e)
         {
-            return new ResponseEntity(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         catch (Exception e)
         {
-            return new ResponseEntity(e.getMessage(),HttpStatus.OK);
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -56,11 +56,11 @@ public class UserController {
         }
         catch (UserNotFoundException e)
         {
-            return new ResponseEntity(e.getMessage(),HttpStatus.OK);
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
         catch (Exception e)
         {
-            return new ResponseEntity(e.getMessage(),HttpStatus.OK);
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 }
