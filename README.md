@@ -1,4 +1,4 @@
-# apiwiz-task-management-project
+# apiwiz-task-management-project (Backend Project)
 
 Project Overview - The Task Management API facilitates CRUD operations on tasks. This documentation guides you through the API's feature, database integration and additional functionalities.
 
@@ -37,7 +37,9 @@ The Task Management API presents a robust solution for handling tasks with a foc
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-Pre Requisite - Intellij IDEA, MySQL
+Pre Requisite - Intellij IDEA, MySQL (Database)
+
+Tech Stack - Java, Spring Boot
 
 
 How to run the project ?
